@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 777ff720a8226604eb20fadbdc2e37a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TempoCenaVitoria
-  tempoLendoTexto: 5
+  tempoLendoTexto: 3
   nomeCenaMeteoro: MeteoroCinematic
 --- !u!4 &147683905
 Transform:
