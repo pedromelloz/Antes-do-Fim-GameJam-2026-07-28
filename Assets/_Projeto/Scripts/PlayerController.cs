@@ -6,34 +6,96 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
 
+    [Header("Configurações de Pulo Duplo")]
+    private bool canDoubleJump = false;
+
+    [Header("Configurações de Dash")]
+    public float dashSpeed = 20f;      // Velocidade do impulso
+    public float dashDuration = 0.2f;  // Tempo que dura o dash
+    public float dashCooldown = 1f;    // Tempo de espera para dar outro dash
+    private bool canDash = true;
+    private bool isDashing = false;
+    private float dashTimeLeft;
+    private float nextDashTime = 0f;
+    private float horizontalInput;
+
     private Rigidbody2D rb;
     private bool isGrounded = false;
+    private float gravityOriginal;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            Debug.LogError("ERRO: O Dino precisa de um componente Rigidbody2D!");
-        }
+        gravityOriginal = rb.gravityScale; // Salva a gravidade normal do Dino
     }
 
     void Update()
     {
-        // Lê as teclas A e D ou as setas Esquerda e Direita usando o teclado padrão do computador
-        float moveInput = 0f;
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) moveInput = -1f;
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) moveInput = 1f;
-
-        // Movimento horizontal
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
-
-        // Pulo com a barra de espaço
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        // Se estiver dando o dash, ele ignora os comandos normais por um instante
+        if (isDashing)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            isGrounded = false;
+            return;
         }
+
+        // Movimento horizontal padrão
+        horizontalInput = 0f;
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) horizontalInput = -1f;
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) horizontalInput = 1f;
+
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+
+        // --- SISTEMA DE PULO E PULO DUPLO ---
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (isGrounded)
+            {
+                // Pulo normal do chão
+                Jump();
+            }
+            else if (canDoubleJump)
+            {
+                // Pulo duplo no ar
+                Jump();
+                canDoubleJump = false; // Gasta o pulo duplo até tocar no chão de novo
+            }
+        }
+
+        // --- SISTEMA DE DASH ---
+        // Pressionando a tecla 'Left Shift' ou 'J' para dar o dash
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.J)) && canDash && Time.time >= nextDashTime)
+        {
+            StartCoroutine(PerformDash());
+        }
+    }
+
+    void Jump()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        isGrounded = false;
+    }
+
+    // Usamos Coroutine para controlar o tempo exato que o Dash dura
+    private System.Collections.IEnumerator PerformDash()
+    {
+        isDashing = true;
+        canDash = false;
+        
+        // Descobre para qual direção o Dino está virado (se estiver parado, vai para a direita)
+        float dashDir = horizontalInput != 0 ? Mathf.Sign(horizontalInput) : 1f;
+
+        // Desliga a gravidade para o Dino não cair enquanto dá o dash no ar
+        rb.gravityScale = 0f;
+        rb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f);
+
+        yield return new WaitForSeconds(dashDuration);
+
+        // Restaura a gravidade e a velocidade normal
+        rb.gravityScale = gravityOriginal;
+        isDashing = false;
+
+        // Agenda o tempo de espera (cooldown) para o próximo dash
+        nextDashTime = Time.time + dashCooldown;
+        canDash = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,6 +103,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            canDoubleJump = true; // Recarrega o pulo duplo sempre que toca no chão!
         }
     }
 }

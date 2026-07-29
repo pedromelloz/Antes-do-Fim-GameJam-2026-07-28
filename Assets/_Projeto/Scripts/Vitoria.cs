@@ -1,21 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Vitoria : MonoBehaviour
 {
-    public Text textoMensagem; // Arraste o mesmo texto de vidas aqui, ou crie um novo texto de "Você Venceu"
+    [Header("Configuração de Cena")]
+    public string nomeCenaCinematic = "CenaMeteoro"; // Nome da cena que vamos criar
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Verifica se foi o jogador que encostou
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (textoMensagem != null)
-            {
-                textoMensagem.text = "VITÓRIA!!!";
-            }
-            Debug.Log("Você Venceu!");
-            Time.timeScale = 0; // Pausa o jogo
+            // Vai para a cena da animação/meteoro caindo
+            SceneManager.LoadScene(nomeCenaCinematic);
         }
     }
 }
