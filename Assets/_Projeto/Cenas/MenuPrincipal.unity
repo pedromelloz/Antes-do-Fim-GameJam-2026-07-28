@@ -1759,7 +1759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
   painelPrincipal: {fileID: 895525662}
-  painelCreditos: {fileID: 0}
+  painelCreditos: {fileID: 1760994795}
   painelConfig: {fileID: 295818048}
   nomeDaSuaFase: Fase1
 --- !u!4 &1482196793
