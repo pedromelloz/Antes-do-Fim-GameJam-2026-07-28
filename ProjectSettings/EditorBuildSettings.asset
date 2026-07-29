@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Projeto/Cenas/GameOver.unity
     guid: ee8358efd14490546aa52dc273294e51
+  - enabled: 1
+    path: Assets/_Projeto/Cenas/Vitoria.unity
+    guid: a9e930b14dc126e45a0ec55ef6e4697b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
