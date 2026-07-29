@@ -376,7 +376,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tentar Novamente
+  m_Text: TENTAR NOVAMENTE
 --- !u!222 &673719694
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -621,7 +621,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -170.9}
-  m_SizeDelta: {x: 80, y: 20}
+  m_SizeDelta: {x: 130, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1226333713
 MonoBehaviour:
@@ -754,7 +754,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -130}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 180, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1805688249
 MonoBehaviour:
@@ -1057,9 +1057,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'VOLTAR MENU
-
-'
+  m_Text: VOLTAR MENU
 --- !u!222 &2107727203
 CanvasRenderer:
   m_ObjectHideFlags: 0

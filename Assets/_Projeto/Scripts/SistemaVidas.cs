@@ -26,8 +26,12 @@ public class SistemaVidas : MonoBehaviour
 
         if (vidas <= 0)
         {
-            // Acabaram as vidas, Game Over
-            SceneManager.LoadScene(nomeCenaGameOver);
+            // --- AQUI ESTÁ A MUDANÇA IMPORTANTE ---
+            // 1. Avisa a memória que NÃO foi vitória (é derrota)
+            PlayerPrefs.SetInt("FoiVitoria", 0);
+
+            // 2. Manda para a cena da animação do meteoro em vez de ir direto pro GameOver antigo
+            SceneManager.LoadScene("MeteoroCinematic");
         }
         else
         {

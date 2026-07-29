@@ -17,5 +17,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Projeto/Cenas/Vitoria.unity
     guid: a9e930b14dc126e45a0ec55ef6e4697b
+  - enabled: 1
+    path: Assets/_Projeto/Cenas/MeteoroCinematic.unity
+    guid: d08f6097235221b40accfbc9741d328f
+  - enabled: 1
+    path: Assets/_Projeto/Cenas/Creditos.unity
+    guid: 54137d4ff99c6ae4f9505a6386a20118
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

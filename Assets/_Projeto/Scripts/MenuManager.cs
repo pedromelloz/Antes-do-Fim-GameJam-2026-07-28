@@ -23,10 +23,9 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(nomeDaSuaFase);
     }
 
-    public void AbrirCreditos()
+    public void AbrirCenaCreditos()
     {
-        painelPrincipal.SetActive(false);
-        painelCreditos.SetActive(true);
+        SceneManager.LoadScene("Creditos"); // Nome exato da nova cena que criamos
     }
 
     public void AbrirConfig()
