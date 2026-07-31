@@ -23,10 +23,18 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = false;
     private float gravityOriginal;
 
+    // --- NOVAS VARIÁVEIS DE ANIMAÇÃO E VISUAL ---
+    private Animator anim;
+    private SpriteRenderer spriteRenderer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         gravityOriginal = rb.gravityScale; // Salva a gravidade normal do Dino
+
+        // Pega os componentes de animação e imagem que estão no próprio Dino
+        anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -43,6 +51,27 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) horizontalInput = 1f;
 
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+
+        // --- CONTROLE DE ANIMAÇÃO (CORRER / PARAR) E VIRAR O SPRITE ---
+        if (horizontalInput != 0)
+        {
+            anim.SetBool("andando", true); // Liga a animação DinoRun
+
+            // Vira o personagem para o lado que está andando
+            if (horizontalInput < 0)
+            {
+                spriteRenderer.flipX = true; // Olha para a esquerda
+            }
+            else if (horizontalInput > 0)
+            {
+                spriteRenderer.flipX = false; // Olha para a direita
+            }
+        }
+        else
+        {
+            anim.SetBool("andando", false); // Volta para a animação DinoIdle (Parado)
+        }
+
 
         // --- SISTEMA DE PULO E PULO DUPLO ---
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -80,8 +109,12 @@ public class PlayerController : MonoBehaviour
         isDashing = true;
         canDash = false;
         
-        // Descobre para qual direção o Dino está virado (se estiver parado, vai para a direita)
-        float dashDir = horizontalInput != 0 ? Mathf.Sign(horizontalInput) : 1f;
+        // Descobre para qual direção o Dino está virado
+        float dashDir = 1f;
+        if (spriteRenderer.flipX == true) // Se ele estiver olhando para a esquerda
+        {
+            dashDir = -1f;
+        }
 
         // Desliga a gravidade para o Dino não cair enquanto dá o dash no ar
         rb.gravityScale = 0f;
